@@ -1,0 +1,26 @@
+{
+  "name": "SPAZIO Мебельный Калькулятор",
+  "short_name": "SPAZIO",
+  "description": "Профессиональный калькулятор для мебельного производства",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FED631",
+  "theme_color": "#FED631",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "lang": "ru",
+  "dir": "ltr"
+}
