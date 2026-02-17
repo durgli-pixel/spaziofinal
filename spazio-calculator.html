@@ -789,9 +789,185 @@
                 font-size: 1.5rem;
             }
         }
+
+        /* SUBSCRIPTION MODAL */
+        .subscription-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .subscription-modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .subscription-content {
+            background: var(--bg-card);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 16px;
+            padding: 3rem 2.5rem;
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            animation: slideUp 0.4s ease;
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
+        }
+
+        .subscription-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .subscription-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-yellow);
+            text-align: center;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .subscription-text {
+            color: var(--text-secondary);
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+        }
+
+        .subscription-features {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .subscription-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .subscription-feature:last-child {
+            margin-bottom: 0;
+        }
+
+        .subscription-feature-icon {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .subscription-btn {
+            background: var(--accent-yellow);
+            border: none;
+            color: var(--bg-primary);
+            padding: 1.2rem 2rem;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .subscription-btn:hover {
+            background: var(--accent-yellow-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .subscription-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .subscription-title {
+                font-size: 1.5rem;
+            }
+
+            .subscription-icon {
+                font-size: 3rem;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Subscription Modal -->
+    <div class="subscription-modal" id="subscriptionModal">
+        <div class="subscription-content">
+            <div class="subscription-icon">🎯</div>
+            
+            <h2 class="subscription-title">Помогите улучшить SPAZIO!</h2>
+            
+            <p class="subscription-text">
+                Подпишитесь на наш Telegram канал, чтобы первыми узнавать о новых функциях и делиться своими идеями.
+            </p>
+            
+            <div class="subscription-features">
+                <div class="subscription-feature">
+                    <span class="subscription-feature-icon">📢</span>
+                    <span>Обновления и новые калькуляторы</span>
+                </div>
+                <div class="subscription-feature">
+                    <span class="subscription-feature-icon">💬</span>
+                    <span>Прямая связь с разработчиками</span>
+                </div>
+                <div class="subscription-feature">
+                    <span class="subscription-feature-icon">⚡</span>
+                    <span>Первыми получайте новые функции</span>
+                </div>
+            </div>
+            
+            <a href="https://t.me/spaziocalc" target="_blank" class="subscription-btn" onclick="subscribeClicked()">
+                <span>📱</span>
+                <span>Подписаться на канал</span>
+            </a>
+        </div>
+    </div>
+
     <!-- Menu Button -->
     <div class="menu-btn" onclick="toggleSidebar()">☰</div>
 
@@ -843,17 +1019,17 @@
         <div class="sidebar-section">
             <div class="sidebar-section-title" id="socialTitle">Социальные сети</div>
             <div class="social-links">
-                <a href="#" class="social-link" title="Instagram">
+                <a href="https://t.me/spaziocalc" target="_blank" class="social-link" title="Instagram">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                     </svg>
                 </a>
-                <a href="#" class="social-link" title="Telegram">
+                <a href="https://t.me/spaziocalc" target="_blank" class="social-link" title="Telegram">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
                     </svg>
                 </a>
-                <a href="#" class="social-link" title="TikTok">
+                <a href="https://t.me/spaziocalc" target="_blank" class="social-link" title="TikTok">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
                     </svg>
@@ -942,6 +1118,19 @@
                 </div>
                 <div class="calc-title">Калькулятор дуги</div>
                 <div class="calc-description">Расчет длины дуги для радиусных элементов</div>
+            </div>
+
+            <!-- PREMIUM CARD -->
+            <div class="calc-card coming-soon" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(184, 150, 10, 0.1) 100%); border: 2px solid var(--accent-yellow);">
+                <div class="calc-icon" style="font-size: 3rem;">⭐</div>
+                <div class="calc-title" style="color: var(--accent-yellow);">Премиум пакет</div>
+                <div class="calc-description" style="margin-bottom: 1rem;">Скоро будут доступны:</div>
+                <div style="text-align: left; color: var(--text-secondary); font-size: 0.8rem; line-height: 1.6;">
+                    • Новые калькуляторы<br>
+                    • PDF отчёты<br>
+                    • 📏 Рулетка (измерение через камеру)
+                </div>
+                <span class="coming-soon-badge" style="margin-top: 1rem;">Скоро</span>
             </div>
         </div>
 
@@ -1375,43 +1564,43 @@
                     <div class="schema-title">ИНФОРМАЦИЯ</div>
                     <div style="padding: 2rem;">
                         <div id="arcInfoPanel" style="display: none; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;">
-                            <div style="color: var(--accent-yellow); font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase;">Параметры расчета</div>
+                            <div id="arcInfoParamsTitle" style="color: var(--accent-yellow); font-size: 0.9rem; font-weight: 600; margin-bottom: 1rem; text-transform: uppercase;">Параметры расчета</div>
                             <div style="display: grid; gap: 1rem;">
                                 <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
                                     <div>
-                                        <div style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Внутр. радиус</div>
+                                        <div id="arcInfoRadiusLabel" style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Внутр. радиус</div>
                                         <div style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600;" id="arcInfoInnerRadius">—</div>
                                     </div>
                                     <div>
-                                        <div style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Угол</div>
+                                        <div id="arcInfoAngleLabel" style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Угол</div>
                                         <div style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600;" id="arcInfoAngle">—</div>
                                     </div>
                                     <div>
-                                        <div style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Толщина</div>
+                                        <div id="arcInfoThicknessLabel" style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Толщина</div>
                                         <div style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600;" id="arcInfoThickness">—</div>
                                     </div>
                                 </div>
                                 
                                 <div style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 0.5rem;">
-                                    <div style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.8rem; text-transform: uppercase;">Результаты расчета</div>
+                                    <div id="arcInfoResultsTitle" style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.8rem; text-transform: uppercase;">Результаты расчета</div>
                                     
                                     <div style="margin-bottom: 0.8rem;">
-                                        <div style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Внутренняя дуга</div>
+                                        <div id="arcInfoInnerLabel" style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Внутренняя дуга</div>
                                         <div style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600;" id="arcInfoInner">—</div>
                                     </div>
                                     
                                     <div style="margin-bottom: 0.8rem; background: rgba(255, 215, 0, 0.1); padding: 1rem; border-radius: 6px; border: 1px solid var(--accent-yellow-dark);">
-                                        <div style="color: var(--accent-yellow); font-size: 0.75rem; margin-bottom: 0.3rem; text-transform: uppercase; font-weight: 700;">⭐ Рекомендуемая длина заготовки (нейтральная линия)</div>
+                                        <div id="arcInfoRecommendedLabel" style="color: var(--accent-yellow); font-size: 0.75rem; margin-bottom: 0.3rem; text-transform: uppercase; font-weight: 700;">⭐ Рекомендуемая длина заготовки (нейтральная линия)</div>
                                         <div style="color: var(--accent-yellow); font-size: 1.5rem; font-weight: 700;" id="arcInfoNeutral">—</div>
                                     </div>
                                     
                                     <div style="margin-bottom: 0.8rem;">
-                                        <div style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Наружная дуга</div>
+                                        <div id="arcInfoOuterLabel" style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Наружная дуга</div>
                                         <div style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600;" id="arcInfoOuter">—</div>
                                     </div>
                                     
                                     <div style="border-top: 1px solid var(--border-color); padding-top: 0.8rem; margin-top: 0.8rem;">
-                                        <div style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Разница между внутренней и наружной</div>
+                                        <div id="arcInfoDifferenceLabel" style="color: var(--text-secondary); font-size: 0.75rem; margin-bottom: 0.3rem;">Разница между внутренней и наружной</div>
                                         <div style="color: var(--text-primary); font-size: 1.1rem; font-weight: 600;" id="arcInfoDifference">—</div>
                                     </div>
                                 </div>
@@ -1454,6 +1643,11 @@
                 hingesDesc: 'Расчет количества и расположения',
                 arcCalc: 'Калькулятор дуги',
                 arcDesc: 'Расчет длины дуги для радиусных элементов',
+                premiumCalc: 'Премиум пакет',
+                premiumDesc: 'Скоро будут доступны:',
+                premiumFeature1: '• Новые калькуляторы',
+                premiumFeature2: '• PDF отчёты',
+                premiumFeature3: '• 📏 Рулетка (измерение через камеру)',
                 
                 // Common
                 backBtn: '← Назад',
@@ -1534,7 +1728,15 @@
                 arcRecommended: '⭐ Рекомендуемая длина заготовки (нейтральная линия)',
                 arcOuter: 'Наружная дуга',
                 arcDifference: 'Разница между внутренней и наружной',
-                arcPlaceholder: 'Введите параметры для расчета длины дуги'
+                arcPlaceholder: 'Введите параметры для расчета длины дуги',
+                
+                // Subscription modal
+                subscriptionTitle: 'Помогите улучшить SPAZIO!',
+                subscriptionText: 'Подпишитесь на наш Telegram канал, чтобы первыми узнавать о новых функциях и делиться своими идеями.',
+                subscriptionFeature1: 'Обновления и новые калькуляторы',
+                subscriptionFeature2: 'Прямая связь с разработчиками',
+                subscriptionFeature3: 'Первыми получайте новые функции',
+                subscriptionBtn: 'Подписаться на канал'
             },
             ro: {
                 // Menu
@@ -1560,6 +1762,11 @@
                 hingesDesc: 'Calculul cantității și poziționării',
                 arcCalc: 'Calculator arc',
                 arcDesc: 'Calculul lungimii arcului pentru elemente radiusate',
+                premiumCalc: 'Pachet Premium',
+                premiumDesc: 'Disponibil în curând:',
+                premiumFeature1: '• Calculatoare noi',
+                premiumFeature2: '• Rapoarte PDF',
+                premiumFeature3: '• 📏 Ruletă (măsurare prin cameră)',
                 
                 // Common
                 backBtn: '← Înapoi',
@@ -1640,7 +1847,15 @@
                 arcRecommended: '⭐ Lungimea recomandată a piesei (linia neutră)',
                 arcOuter: 'Arcul exterior',
                 arcDifference: 'Diferența dintre interior și exterior',
-                arcPlaceholder: 'Introduceți parametrii pentru calculul lungimii arcului'
+                arcPlaceholder: 'Introduceți parametrii pentru calculul lungimii arcului',
+                
+                // Subscription modal
+                subscriptionTitle: 'Ajutați la îmbunătățirea SPAZIO!',
+                subscriptionText: 'Abonați-vă la canalul nostru Telegram pentru a fi primii care află despre noi funcții și pentru a vă împărtăși ideile.',
+                subscriptionFeature1: 'Actualizări și calculatoare noi',
+                subscriptionFeature2: 'Contact direct cu dezvoltatorii',
+                subscriptionFeature3: 'Primiți primii funcții noi',
+                subscriptionBtn: 'Abonează-te la canal'
             },
             en: {
                 // Menu
@@ -1666,6 +1881,11 @@
                 hingesDesc: 'Calculate quantity and placement',
                 arcCalc: 'Arc calculator',
                 arcDesc: 'Calculate arc length for radius elements',
+                premiumCalc: 'Premium package',
+                premiumDesc: 'Coming soon:',
+                premiumFeature1: '• New calculators',
+                premiumFeature2: '• PDF reports',
+                premiumFeature3: '• 📏 Ruler (camera measurement)',
                 
                 // Common
                 backBtn: '← Back',
@@ -1746,7 +1966,15 @@
                 arcRecommended: '⭐ Recommended blank length (neutral line)',
                 arcOuter: 'Outer arc',
                 arcDifference: 'Difference between inner and outer',
-                arcPlaceholder: 'Enter parameters to calculate arc length'
+                arcPlaceholder: 'Enter parameters to calculate arc length',
+                
+                // Subscription modal
+                subscriptionTitle: 'Help improve SPAZIO!',
+                subscriptionText: 'Subscribe to our Telegram channel to be the first to know about new features and share your ideas.',
+                subscriptionFeature1: 'Updates and new calculators',
+                subscriptionFeature2: 'Direct contact with developers',
+                subscriptionFeature3: 'Get new features first',
+                subscriptionBtn: 'Subscribe to channel'
             }
         };
 
@@ -1846,6 +2074,8 @@
             if (calcDescs[3]) calcDescs[3].textContent = t.hingesDesc;
             if (calcTitles[4]) calcTitles[4].textContent = t.arcCalc;
             if (calcDescs[4]) calcDescs[4].textContent = t.arcDesc;
+            if (calcTitles[5]) calcTitles[5].textContent = t.premiumCalc;
+            if (calcDescs[5]) calcDescs[5].textContent = t.premiumDesc;
             
             // ====== COMMON BUTTONS ======
             document.querySelectorAll('.back-btn').forEach(btn => btn.textContent = t.backBtn);
@@ -1920,6 +2150,26 @@
             setText('#arcCalculator .schema-title', t.shelfInfoTitle);
             setTextById('arcPlaceholder', t.arcPlaceholder);
             
+            // Arc info panel
+            setTextById('arcInfoParamsTitle', t.arcParams);
+            setTextById('arcInfoRadiusLabel', t.arcInfoInnerRadius);
+            setTextById('arcInfoAngleLabel', t.arcInfoAngle);
+            setTextById('arcInfoThicknessLabel', t.arcInfoThickness);
+            setTextById('arcInfoResultsTitle', t.arcResults);
+            setTextById('arcInfoInnerLabel', t.arcInner);
+            setTextById('arcInfoRecommendedLabel', t.arcRecommended);
+            setTextById('arcInfoOuterLabel', t.arcOuter);
+            setTextById('arcInfoDifferenceLabel', t.arcDifference);
+            
+            // ====== SUBSCRIPTION MODAL ======
+            setText('.subscription-title', t.subscriptionTitle);
+            setText('.subscription-text', t.subscriptionText);
+            const features = document.querySelectorAll('.subscription-feature span:not(.subscription-feature-icon)');
+            if (features[0]) features[0].textContent = t.subscriptionFeature1;
+            if (features[1]) features[1].textContent = t.subscriptionFeature2;
+            if (features[2]) features[2].textContent = t.subscriptionFeature3;
+            setText('.subscription-btn span:last-child', t.subscriptionBtn);
+            
             console.log('✅ Язык изменен на:', lang);
         }
 
@@ -1930,6 +2180,35 @@
                 en: 'Premium feature coming soon!'
             };
             alert(messages[currentLang]);
+        }
+
+        // SUBSCRIPTION MODAL FUNCTIONS
+        function showSubscriptionModal() {
+            const modal = document.getElementById('subscriptionModal');
+            modal.classList.add('active');
+        }
+
+        function subscribeClicked() {
+            // Сохраняем, что пользователь кликнул на подписку
+            localStorage.setItem('spazio_subscription_clicked', 'true');
+            // Закрываем модальное окно
+            const modal = document.getElementById('subscriptionModal');
+            modal.classList.remove('active');
+        }
+
+        function checkSubscriptionModal() {
+            // Проверяем, кликнул ли пользователь на подписку
+            const clicked = localStorage.getItem('spazio_subscription_clicked');
+            
+            // Если пользователь уже кликнул - не показываем
+            if (clicked) {
+                return;
+            }
+            
+            // Показываем модальное окно сразу при загрузке страницы
+            setTimeout(() => {
+                showSubscriptionModal();
+            }, 1000); // Задержка 1 секунда для плавности
         }
 
         // Загрузка сохраненных настроек при загрузке страницы
@@ -1962,6 +2241,9 @@
             
             // Применение переводов
             applyTranslations(savedLang);
+            
+            // Проверка и показ модального окна подписки
+            checkSubscriptionModal();
         });
 
         // Navigation
