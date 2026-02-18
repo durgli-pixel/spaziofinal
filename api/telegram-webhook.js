@@ -1,10 +1,11 @@
-// api/telegram-webhook.js - Telegram Bot Webhook
+// api/telegram-webhook.js - Telegram Bot Webhook с ссылкой на калькулятор
 
 const BOT_TOKEN = '8530197516:AAFH3d_SepVxkGLs_aHANbxssfHSW8w0R1Q';
 const CHANNEL_ID = '-1003463551432';
 const CHANNEL_LINK = 'https://t.me/spaziocalc';
+const CALCULATOR_URL = 'https://spaziocalc.vercel.app/spazio-calculator.html';
 
-// Хранилище кодов (в production использовать БД)
+// Временное хранилище кодов (для теста, в проде использовать БД)
 const accessCodes = new Map();
 
 export default async function handler(req, res) {
@@ -25,12 +26,10 @@ export default async function handler(req, res) {
     if (update.message) {
       const message = update.message;
       const chatId = message.chat.id;
-      const userId = message.from.id;
       const text = message.text || '';
 
-      // Команда /start
       if (text.startsWith('/start')) {
-        await sendMessage(chatId, 
+        await sendMessage(chatId,
           '🎯 Добро пожаловать в SPAZIO Calculator!\n\n' +
           'Для получения доступа к калькулятору:\n' +
           '1️⃣ Подпишитесь на наш канал\n' +
@@ -54,7 +53,7 @@ export default async function handler(req, res) {
   }
 }
 
-// Обработка callback кнопок
+// ⚡ Обработка callback кнопок
 async function handleCallback(callbackQuery) {
   const chatId = callbackQuery.message.chat.id;
   const userId = callbackQuery.from.id;
@@ -64,14 +63,16 @@ async function handleCallback(callbackQuery) {
     const isSubscribed = await checkSubscription(userId);
 
     if (isSubscribed) {
+      // Генерация кода
       const code = generateAccessCode();
       accessCodes.set(code, { userId, timestamp: Date.now() });
 
+      // Ссылка на калькулятор с кодом
+      const link = `${CALCULATOR_URL}?code=${code}`;
+
       await sendMessage(chatId,
-        '✅ Отлично! Вы подписаны на канал!\n\n' +
-        `🔑 Ваш код доступа:\n<code>${code}</code>\n\n` +
-        'Скопируйте этот код и вставьте на сайте калькулятора.',
-        { parse_mode: 'HTML' }
+        `✅ Отлично! Вы подписаны на канал!\n\n` +
+        `🔗 Перейдите по ссылке, чтобы открыть калькулятор с кодом:\n\n${link}`
       );
 
       await answerCallback(callbackQuery.id, '✅ Подписка подтверждена!');
