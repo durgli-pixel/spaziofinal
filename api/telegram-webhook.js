@@ -1,3 +1,4 @@
+import { db } from './firebase-admin.js';
 // api/telegram-webhook.js - Telegram Bot Webhook с ссылкой на калькулятор
 
 const BOT_TOKEN = '8530197516:AAFH3d_SepVxkGLs_aHANbxssfHSW8w0R1Q';
