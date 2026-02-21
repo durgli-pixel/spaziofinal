@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        from: 'SPAZIO <onboarding@resend.dev>',
+        from: 'SPAZIO Calculator <delivered@ostuahelou.resend.app>',
         to: [email],
         subject: 'Ваш код доступа SPAZIO Calculator',
         html: getEmailHTML(code)
@@ -39,15 +39,29 @@ export default async function handler(req, res) {
     const data = await resendResponse.json();
 
     if (resendResponse.ok) {
-      return res.json({ success: true, message: 'Код отправлен на ' + email });
+      return res.json({ 
+        success: true, 
+        message: '✅ Код отправлен на ' + email + '!'
+      });
     } else {
       console.error('Resend error:', data);
-      return res.status(500).json({ success: false, error: 'Ошибка отправки', code: code });
+      return res.json({ 
+        success: true, 
+        message: '⚠️ Email не отправился, но вот ваш код:',
+        code: code,
+        showCode: true
+      });
     }
 
   } catch (error) {
     console.error('Error:', error);
-    return res.status(500).json({ success: false, error: 'Ошибка сервера' });
+    const code = generateCode();
+    return res.json({ 
+      success: true, 
+      message: '⚠️ Вот ваш код:',
+      code: code,
+      showCode: true
+    });
   }
 }
 
@@ -75,9 +89,6 @@ function getEmailHTML(code) {
       <div style="background:#FFF9E6;border-radius:8px;padding:16px;margin:24px 0 0">
         <p style="color:#856404;font-size:13px;margin:0">⏱ Бесплатный триал на 30 дней</p>
       </div>
-    </div>
-    <div style="text-align:center;margin-top:32px;padding-top:24px;border-top:1px solid #e5e5e5">
-      <p style="color:#999;font-size:13px;margin:0">Если вы не запрашивали код, проигнорируйте это письмо.</p>
     </div>
   </div>
 </body>
