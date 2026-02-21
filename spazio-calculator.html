@@ -176,6 +176,14 @@
             align-items: center;
             gap: 0.8rem;
             font-size: 0.95rem;
+            min-width: 0;
+            flex-shrink: 0;
+        }
+
+        .language-option span:last-child {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .language-option:hover {
@@ -986,6 +994,93 @@
             transform: translateY(-2px);
         }
 
+        /* Trial Banner */
+        .trial-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #FED631 0%, #f5c518 100%);
+            color: #1d1d1f;
+            padding: 0.875rem 1rem;
+            z-index: 9999;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.3s ease;
+        }
+
+        .trial-banner.warning {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+            color: white;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .trial-banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .trial-banner-close {
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+
+        .trial-banner-close:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Email button */
+        .modal-link-button {
+            width: 100%;
+            padding: 0.875rem;
+            background: transparent;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1d1d1f;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0.5rem;
+        }
+
+        [data-theme="dark"] .modal-link-button {
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #f5f5f7;
+        }
+
+        .modal-link-button:hover {
+            background: rgba(0, 0, 0, 0.03);
+            border-color: rgba(0, 0, 0, 0.3);
+        }
+
+        [data-theme="dark"] .modal-link-button:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
         @media (max-width: 768px) {
             .subscription-content.apple-style {
                 padding: 2.5rem 1.5rem;
@@ -1007,11 +1102,9 @@
                 bottom: 1.5rem;
                 right: 1.5rem;
             }
-                font-size: 1.5rem;
-            }
 
-            .subscription-icon {
-                font-size: 3rem;
+            .trial-banner-content {
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -1065,25 +1158,64 @@
             <h2 class="modal-title">Добро пожаловать</h2>
             <p class="modal-subtitle" id="subscriptionMessage">Введите код доступа для продолжения</p>
             
-            <input 
-                type="text" 
-                id="accessCodeInput" 
-                class="modal-input"
-                placeholder="SPAZIO-XXXXXX"
-                maxlength="13"
-            />
+            <!-- Форма ввода кода -->
+            <div id="codeInputForm">
+                <input 
+                    type="text" 
+                    id="accessCodeInput" 
+                    class="modal-input"
+                    placeholder="SPAZIO-XXXXXX"
+                    maxlength="13"
+                />
+                
+                <button class="modal-button" onclick="verifyAccessCode()">
+                    Продолжить
+                </button>
+                
+                <div style="display: flex; gap: 0.5rem; align-items: center; justify-content: center; margin: 1rem 0;">
+                    <div style="flex: 1; height: 1px; background: rgba(0,0,0,0.1);"></div>
+                    <span style="color: #86868b; font-size: 0.875rem;">или</span>
+                    <div style="flex: 1; height: 1px; background: rgba(0,0,0,0.1);"></div>
+                </div>
+                
+                <button class="modal-link-button" onclick="showEmailForm()">
+                    📧 Получить код на Email
+                </button>
+                
+                <a href="https://t.me/spazio_access_bot?start=access" target="_blank" class="modal-link">
+                    Получить код через Telegram
+                </a>
+            </div>
             
-            <button class="modal-button" onclick="verifyAccessCode()">
-                Продолжить
-            </button>
-            
-            <a href="https://t.me/spazio_access_bot?start=access" target="_blank" class="modal-link">
-                Получить код доступа
-            </a>
+            <!-- Форма Email (скрыта по умолчанию) -->
+            <div id="emailInputForm" style="display: none;">
+                <input 
+                    type="email" 
+                    id="emailInput" 
+                    class="modal-input"
+                    placeholder="your@email.com"
+                />
+                
+                <button class="modal-button" onclick="sendEmailCode()">
+                    Отправить код
+                </button>
+                
+                <button class="modal-link-button" onclick="showCodeForm()">
+                    ← Назад к вводу кода
+                </button>
+            </div>
             
             <div id="loadingIndicator" class="modal-loading" style="display: none;">
-                Проверка кода...
+                Отправка...
             </div>
+        </div>
+    </div>
+
+    <!-- Trial Banner -->
+    <div class="trial-banner" id="trialBanner" style="display: none;">
+        <div class="trial-banner-content">
+            <span id="trialBannerText"></span>
+            <button class="trial-banner-close" onclick="hideTrialBanner()">✕</button>
         </div>
     </div>
 
@@ -2463,23 +2595,127 @@
         function showPurchaseModal() {
             const modal = document.getElementById('subscriptionModal');
             const messageEl = document.getElementById('subscriptionMessage');
-            const codeInput = document.getElementById('accessCodeInput');
+            const codeInputForm = document.getElementById('codeInputForm');
+            const emailInputForm = document.getElementById('emailInputForm');
             const continueBtn = document.querySelector('.modal-button');
-            const getCodeLink = document.querySelector('.modal-link');
             
             messageEl.textContent = '⏰ Ваш 30-дневный триал истёк';
-            codeInput.style.display = 'none';
-            continueBtn.textContent = 'Купить полный доступ - $9.99';
-            continueBtn.onclick = function() {
+            codeInputForm.style.display = 'none';
+            emailInputForm.style.display = 'none';
+            
+            // Показать только кнопку покупки
+            const purchaseBtn = document.createElement('button');
+            purchaseBtn.className = 'modal-button';
+            purchaseBtn.textContent = 'Купить полный доступ - $9.99';
+            purchaseBtn.onclick = function() {
                 window.open('https://t.me/spazio_access_bot?start=purchase', '_blank');
             };
-            getCodeLink.style.display = 'none';
+            document.querySelector('.subscription-content').appendChild(purchaseBtn);
             
             // Очистить триал
             localStorage.removeItem('spazio_subscription_verified');
             localStorage.removeItem('spazio_access_type');
             
             modal.classList.add('active');
+        }
+
+        // Email functions
+        function showEmailForm() {
+            document.getElementById('codeInputForm').style.display = 'none';
+            document.getElementById('emailInputForm').style.display = 'block';
+        }
+
+        function showCodeForm() {
+            document.getElementById('codeInputForm').style.display = 'block';
+            document.getElementById('emailInputForm').style.display = 'none';
+        }
+
+        async function sendEmailCode() {
+            const emailInput = document.getElementById('emailInput');
+            const email = emailInput.value.trim();
+            
+            if (!email || !isValidEmail(email)) {
+                updateMessage('Введите корректный email', '#ff6b6b');
+                return;
+            }
+            
+            document.getElementById('loadingIndicator').style.display = 'block';
+            
+            try {
+                const response = await fetch('https://spaziocalc.vercel.app/api/send-email-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    updateMessage('✅ Код отправлен на ' + email, '#FED631');
+                    setTimeout(() => showCodeForm(), 2000);
+                    
+                    // Analytics
+                    if (window.logAnalyticsEvent && window.firebaseAnalytics) {
+                        window.logAnalyticsEvent(window.firebaseAnalytics, 'email_code_sent', { email });
+                    }
+                } else {
+                    updateMessage('❌ ' + (data.error || 'Ошибка отправки'), '#ff6b6b');
+                }
+                
+            } catch (error) {
+                console.error('Email send error:', error);
+                updateMessage('⚠️ Ошибка. Попробуйте снова.', '#ff6b6b');
+            } finally {
+                document.getElementById('loadingIndicator').style.display = 'none';
+            }
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Trial banner functions
+        function showTrialBanner() {
+            const accessType = localStorage.getItem('spazio_access_type');
+            const lastShown = localStorage.getItem('spazio_banner_last_shown');
+            const today = new Date().toDateString();
+            
+            // Показывать баннер раз в день
+            if (lastShown === today) {
+                return;
+            }
+            
+            if (accessType === 'trial') {
+                const expiryDate = parseInt(localStorage.getItem('spazio_trial_expiry'));
+                const now = Date.now();
+                const daysLeft = Math.ceil((expiryDate - now) / (24 * 60 * 60 * 1000));
+                
+                if (daysLeft <= 30 && daysLeft > 0) {
+                    const banner = document.getElementById('trialBanner');
+                    const bannerText = document.getElementById('trialBannerText');
+                    
+                    if (daysLeft <= 3) {
+                        banner.classList.add('warning');
+                        bannerText.textContent = `⚠️ Триал истекает через ${daysLeft} ${getDaysWord(daysLeft)}! Купите полный доступ за $9.99`;
+                    } else {
+                        bannerText.textContent = `⏱ Триал активен. Осталось ${daysLeft} ${getDaysWord(daysLeft)}`;
+                    }
+                    
+                    banner.style.display = 'block';
+                    localStorage.setItem('spazio_banner_last_shown', today);
+                }
+            }
+        }
+
+        function hideTrialBanner() {
+            document.getElementById('trialBanner').style.display = 'none';
+        }
+
+        function getDaysWord(days) {
+            if (days === 1) return 'день';
+            if (days >= 2 && days <= 4) return 'дня';
+            return 'дней';
         }
 
         // SUBSCRIPTION MODAL FUNCTIONS
@@ -2589,6 +2825,9 @@
             
             // Проверка и показ модального окна подписки
             checkSubscriptionModal();
+            
+            // Показ баннера триала
+            showTrialBanner();
         });
 
         // Navigation
