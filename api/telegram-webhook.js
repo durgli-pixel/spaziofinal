@@ -65,7 +65,7 @@ async function handleCodeRequest(chatId, userId) {
       '🔑 *Ваш код доступа:*\n\n' +
       '`' + code + '`\n\n' +
       '📱 Введите код на сайте:\n' +
-      'spaziocalc.vercel.app\n\n' +
+      'spazio.vip\n\n' +
       '⏱ Триал: 30 дней бесплатно'
     );
   } else {
