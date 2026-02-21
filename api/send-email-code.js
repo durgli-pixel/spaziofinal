@@ -15,12 +15,19 @@ export default async function handler(req, res) {
 
   try {
     const { email } = req.body;
+    console.log('📧 Email request received for:', email);
 
     if (!email || !isValidEmail(email)) {
+      console.log('❌ Invalid email:', email);
       return res.status(400).json({ success: false, error: 'Некорректный email' });
     }
 
     const code = generateCode();
+    console.log('🔑 Generated code:', code);
+
+    console.log('📤 Attempting to send via Resend...');
+    console.log('API Key present:', RESEND_API_KEY ? 'YES' : 'NO');
+    console.log('From address:', 'SPAZIO Calculator <noreply@send.spazio.vip>');
 
     const resendResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
@@ -36,31 +43,42 @@ export default async function handler(req, res) {
       })
     });
 
+    console.log('📥 Resend response status:', resendResponse.status);
+    
     const data = await resendResponse.json();
+    console.log('📥 Resend response data:', JSON.stringify(data));
 
     if (resendResponse.ok) {
+      console.log('✅ Email sent successfully!');
       return res.json({ 
         success: true, 
         message: '✅ Код отправлен на ' + email + '!'
       });
     } else {
-      console.error('Resend error:', data);
+      console.error('❌ Resend API error:', data);
       return res.json({ 
         success: true, 
         message: '⚠️ Email не отправился, но вот ваш код:',
         code: code,
-        showCode: true
+        showCode: true,
+        debug: {
+          status: resendResponse.status,
+          error: data
+        }
       });
     }
 
   } catch (error) {
-    console.error('Error:', error);
+    console.error('💥 Fatal error:', error);
     const code = generateCode();
     return res.json({ 
       success: true, 
       message: '⚠️ Вот ваш код:',
       code: code,
-      showCode: true
+      showCode: true,
+      debug: {
+        error: error.message
+      }
     });
   }
 }
