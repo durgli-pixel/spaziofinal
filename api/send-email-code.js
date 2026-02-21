@@ -87,28 +87,41 @@ function getEmailHTML(code) {
   return `
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;background:#f5f5f5">
-  <div style="max-width:600px;margin:0 auto;padding:40px 20px;background:#fff;font-family:-apple-system,sans-serif">
-    <div style="text-align:center;margin-bottom:30px">
-      <div style="background:#FED631;width:80px;height:80px;margin:0 auto 20px;border-radius:18px;display:inline-flex;align-items:center;justify-content:center">
-        <span style="font-size:36px;font-weight:800;color:#000">SP</span>
-      </div>
-      <h1 style="color:#1d1d1f;font-size:28px;margin:0">SPAZIO Calculator</h1>
-    </div>
-    <div style="background:#f9f9f9;border-radius:16px;padding:32px;text-align:center">
-      <h2 style="color:#1d1d1f;font-size:20px;margin:0 0 24px">Ваш код доступа</h2>
-      <div style="background:#fff;border:2px solid #FED631;border-radius:12px;padding:24px;margin:24px 0">
-        <div style="font-family:monospace;font-size:28px;letter-spacing:4px;color:#1d1d1f;font-weight:bold">${code}</div>
-      </div>
-      <p style="color:#666;font-size:15px;margin:24px 0 0">
-        Введите код на сайте<br><strong style="color:#1d1d1f">spazio.vip</strong>
-      </p>
-      <div style="background:#FFF9E6;border-radius:8px;padding:16px;margin:24px 0 0">
-        <p style="color:#856404;font-size:13px;margin:0">⏱ Бесплатный триал на 30 дней</p>
-      </div>
-    </div>
-  </div>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:20px;font-family:Arial,sans-serif;background-color:#f5f5f5;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#ffffff;">
+    <tr>
+      <td style="padding:40px;text-align:center;">
+        <h1 style="color:#FED631;font-size:48px;margin:0 0 10px 0;">SPAZIO</h1>
+        <p style="color:#666;font-size:16px;margin:0;">Calculator</p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:0 40px 40px 40px;text-align:center;">
+        <h2 style="color:#1d1d1f;font-size:20px;margin:0 0 20px 0;">Ваш код доступа</h2>
+        <div style="background:#FFF9E6;border:3px solid #FED631;border-radius:8px;padding:20px;margin:20px 0;">
+          <p style="font-family:Courier,monospace;font-size:32px;font-weight:bold;color:#1d1d1f;margin:0;letter-spacing:2px;">${code}</p>
+        </div>
+        <p style="color:#666;font-size:14px;margin:20px 0;">
+          Введите этот код на сайте<br>
+          <strong style="color:#1d1d1f;">spazio.vip</strong>
+        </p>
+        <p style="color:#856404;font-size:13px;margin:20px 0;padding:10px;background:#FFF9E6;border-radius:6px;">
+          ⏱ Бесплатный триал на 30 дней
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:20px 40px;text-align:center;border-top:1px solid #e5e5e5;">
+        <p style="color:#999;font-size:12px;margin:0;">
+          Если вы не запрашивали этот код, проигнорируйте это письмо.
+        </p>
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
   `;
